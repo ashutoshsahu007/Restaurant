@@ -6,15 +6,17 @@ import ReactDOM from "react-dom";
 import Backdrop from "./components/UI/Modal/Backdrop";
 import ModalOverlay from "./components/UI/Modal/ModalOverlay";
 import Modal from "./components/UI/Modal/Modal";
+import { useState } from "react";
 
 const App = () => {
+  const [showCart, setShowCart] = useState(false);
   return (
-    <div>
-      <Header />
+    <>
+      <Header setShowCart={setShowCart} showCart={showCart} />
       <HeroSection />
       <MealList />
-      <Modal />
-    </div>
+      {showCart && <Modal setShowCart={setShowCart} />}
+    </>
   );
 };
 

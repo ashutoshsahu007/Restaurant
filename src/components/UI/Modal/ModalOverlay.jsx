@@ -1,6 +1,6 @@
 import React from "react";
 
-const ModalOverlay = () => {
+const ModalOverlay = ({ setShowCart }) => {
   return (
     <div className="fixed w-full top-[30vh] z-100 flex justify-center">
       <div className="bg-white rounded-xl p-6 w-[90%] max-w-md shadow-lg">
@@ -12,10 +12,13 @@ const ModalOverlay = () => {
         </div>
 
         <div className="flex justify-end gap-4">
-          <button className="px-4 py-2 border border-gray-400 text-gray-700 rounded-full hover:bg-gray-100 transition">
+          <button
+            onClick={() => setShowCart(false)}
+            className="px-4 py-2 border border-gray-400 text-gray-700 rounded-full hover:bg-gray-100 transition cursor-pointer"
+          >
             Close
           </button>
-          <button className="px-4 py-2 bg-[#6b1b0b] text-white rounded-full hover:bg-[#4e1308] transition">
+          <button className="px-4 py-2 bg-[#6b1b0b] text-white rounded-full hover:bg-[#4e1308] transition cursor-pointer">
             Order
           </button>
         </div>
