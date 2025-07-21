@@ -4,23 +4,18 @@ import HeroSection from "./components/HeroSection/HeroSection";
 import MealList from "./components/MealList/MealList";
 import Modal from "./components/UI/Modal/Modal";
 import { useState } from "react";
-import CartContext from "./store/cart-context";
+import CartProvider from "./store/CartProvider";
 
 const App = () => {
   const [showCart, setShowCart] = useState(false);
-  const [cartItems, setCartItems] = useState(0);
 
   return (
-    <CartContext.Provider
-      value={{
-        cartItems: cartItems,
-      }}
-    >
+    <CartProvider>
       <Header setShowCart={setShowCart} showCart={showCart} />
       <HeroSection />
       <MealList />
       {showCart && <Modal setShowCart={setShowCart} />}
-    </CartContext.Provider>
+    </CartProvider>
   );
 };
 
