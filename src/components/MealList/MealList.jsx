@@ -1,33 +1,27 @@
-import React from "react";
-
-const DUMMY_MEALS = [
-  {
-    id: "m1",
-    name: "Sushi",
-    description: "Finest fish and veggies",
-    price: 22.99,
-  },
-  {
-    id: "m2",
-    name: "Schnitzel",
-    description: "A german specialty!",
-    price: 16.5,
-  },
-  {
-    id: "m3",
-    name: "Barbecue Burger",
-    description: "American, raw, meaty",
-    price: 12.99,
-  },
-  {
-    id: "m4",
-    name: "Green Bowl",
-    description: "Healthy...and green...",
-    price: 18.99,
-  },
-];
+import React, { use, useRef } from "react";
+import DUMMY_MEALS from "../../data/meals-data";
+import { useContext } from "react";
+import CartContext from "../../store/cart-context";
 
 const MealList = () => {
+  const inputRefs = useRef({});
+  const ctx = useContext(CartContext);
+
+  const handleSubmit = (e, id) => {
+    e.preventDefault();
+    const amount = inputRefs.current[id]?.value;
+    const addedMeal = DUMMY_MEALS.find((meal) => id == meal.id);
+
+    if (!addedMeal || amount < 1) return;
+
+    const mealWithAmount = {
+      ...addedMeal,
+      amount: +amount,
+    };
+
+    ctx.addItem(mealWithAmount);
+  };
+
   return (
     <div className="max-w-2xl mx-auto my-10 bg-white rounded-lg shadow-md overflow-hidden">
       {DUMMY_MEALS.map((meal) => (
@@ -45,7 +39,10 @@ const MealList = () => {
           </div>
 
           {/* Form */}
-          <form className="flex items-center gap-2">
+          <form
+            onSubmit={(e) => handleSubmit(e, meal.id)}
+            className="flex items-center gap-2"
+          >
             <div className="flex flex-col text-sm font-medium text-gray-700">
               <label htmlFor={`amount_${meal.id}`} className="mb-1">
                 Amount
@@ -54,6 +51,8 @@ const MealList = () => {
                 id={`amount_${meal.id}`}
                 type="number"
                 min="1"
+                max="10"
+                ref={(amt) => (inputRefs.current[meal.id] = amt)}
                 step="1"
                 defaultValue="1"
                 className="w-16 border rounded px-2 py-1 text-center focus:outline-none"
@@ -61,7 +60,7 @@ const MealList = () => {
             </div>
             <button
               type="submit"
-              className="bg-red-800 text-white px-4 py-1 rounded-full font-semibold hover:bg-red-700 transition"
+              className="bg-red-800 text-white px-4 py-1 rounded-full font-semibold hover:bg-red-700 transition cursor-pointer"
             >
               + Add
             </button>

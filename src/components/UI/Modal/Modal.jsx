@@ -1,16 +1,11 @@
 import ReactDOM from "react-dom";
-import Backdrop from "./Backdrop";
 import ModalOverlay from "./ModalOverlay";
 
-const Modal = ({ setShowCart }) => {
+const Modal = (props) => {
   return (
     <>
       {ReactDOM.createPortal(
-        <Backdrop setShowCart={setShowCart} />,
-        document.getElementById("backdrop-root")
-      )}
-      {ReactDOM.createPortal(
-        <ModalOverlay setShowCart={setShowCart} />,
+        <ModalOverlay />,
         document.getElementById("overlay-root")
       )}
     </>
